@@ -4,31 +4,842 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>NusaData — Statistik Indonesia 2024</title>
-<meta name="description" content="Statistik Indonesia 2024: penduduk, ekonomi, kesehatan, dan pendidikan dari BPS, Kemenkes, dan World Bank — lengkap dengan sumber dan tahun.">
-<link rel="stylesheet" href="./style.css">
+<style>
+:root{
+  --navy-900:#0A2540; --navy-800:#0F3557; --navy-700:#16456E;
+  --red-600:#C8102E; --red-700:#A50D26;
+  --paper:#F6F7F9; --card:#FFFFFF; --ink:#16283C; --muted:#5B6B7C;
+  --border:#DCE3EA; --border-soft:#E9EDF1;
+  --teal:#0E7C7B; --gold:#C98A1B; --green:#1E7D46;
+  --red-soft-bg:#FDECEF; --navy-soft-bg:#EAF0F6; --focus:#1B6AC9;
+  --font-sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --font-mono:ui-monospace,"SF Mono","Cascadia Mono",Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--font-sans);font-size:15px;line-height:1.65;color:var(--ink);background:var(--paper)}
+a{color:var(--navy-700)}
+button{font-family:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+header.site{position:sticky;top:0;z-index:50;background:var(--navy-900);color:#fff}
+.header-in{display:flex;align-items:center;gap:20px;height:64px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff}
+.logo-mark{width:32px;height:32px;background:var(--red-600);color:#fff;font-weight:800;font-size:19px;display:flex;align-items:center;justify-content:center;border-radius:6px}
+.logo-name{font-size:18px;font-weight:800}
+.logo-tag{font-size:11px;letter-spacing:.12em;color:#9FB3C8}
+nav.main{margin-left:auto;display:flex;gap:2px}
+nav.main a{color:#D7E2EC;text-decoration:none;font-size:14px;font-weight:600;padding:8px 10px;border-radius:6px}
+nav.main a:hover{color:#fff;text-decoration:underline;text-decoration-color:var(--red-600);text-underline-offset:4px}
+.btn{display:inline-flex;align-items:center;height:40px;padding:0 18px;border-radius:8px;font-size:14px;font-weight:700;border:1px solid transparent;text-decoration:none}
+.btn-white{background:#fff;color:var(--navy-900)}
+.btn-navy{background:var(--navy-900);color:#fff}
+.btn-ghost{background:#fff;color:var(--navy-900);border-color:var(--border)}
+.hamb{display:none;background:none;border:1px solid #4A647E;color:#fff;border-radius:8px;width:40px;height:40px;font-size:20px;margin-left:auto}
+.mobile-menu{display:none;background:var(--navy-900);padding:8px 24px 16px}
+.mobile-menu.open{display:block}
+.mobile-menu a{display:block;color:#D7E2EC;text-decoration:none;font-weight:600;padding:10px 0;border-top:1px solid #1D4266}
+.strip{background:var(--navy-soft-bg);font-size:12px;color:var(--navy-800);padding:8px 0}
+.strip .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.hero{padding:34px 0 22px}
+.kicker{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--red-600);margin:0 0 8px}
+h1{font-size:40px;line-height:1.15;font-weight:800;color:var(--navy-900);margin:0 0 10px}
+h1 .red{color:var(--red-600)}
+.lede{font-size:17px;color:var(--muted);max-width:760px;margin:0 0 16px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 20px}
+.chip{background:var(--navy-soft-bg);border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600;color:var(--navy-800)}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin:0 0 8px}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 20px 16px;box-shadow:0 1px 2px rgba(10,37,64,.06);border-top:3px solid var(--navy-800)}
+.kpi.hot{border-top-color:var(--red-600)}
+.kpi-label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:0 0 6px}
+.kpi-value{font-size:30px;line-height:1.1;font-weight:800;color:var(--navy-900);margin:0 0 4px}
+.kpi.hot .kpi-value{color:var(--red-600)}
+.kpi-delta{font-size:12px;font-weight:700;color:var(--muted);margin:0}
+.kpi-delta .up{color:var(--green)}
+.kpi-delta .down{color:var(--green)}
+.src-note{font-size:12px;color:var(--muted);margin:6px 0 0}
+section{padding:44px 0 8px;scroll-margin-top:80px}
+section h2{font-size:24px;font-weight:800;color:var(--navy-900);margin:0 0 4px}
+section .intro{color:var(--muted);margin:0 0 20px}
+.grid-2{display:grid;grid-template-columns:1.5fr 1fr;gap:16px}
+.grid-2e{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px 22px;box-shadow:0 1px 2px rgba(10,37,64,.06);margin-bottom:16px}
+.card h3{font-size:16px;font-weight:700;margin:0 0 2px}
+.card .sub{font-size:13px;color:var(--muted);margin:0 0 14px}
+.card .sub .src{font-weight:700;color:var(--navy-700)}
+.legend{font-size:12px;color:var(--muted);margin:10px 0 0}
+.sw{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:4px}
+.toggle-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.pill{border:1px solid var(--border);background:#fff;border-radius:999px;padding:7px 14px;font-size:13px;font-weight:700;color:var(--navy-800)}
+.pill[aria-pressed="true"]{background:var(--navy-900);color:#fff;border-color:var(--navy-900)}
+.hbar-row{display:grid;grid-template-columns:190px 1fr 150px;gap:10px;align-items:center;margin:7px 0;font-size:14px}
+.hbar-row .lbl{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hbar-track{background:var(--border-soft);border-radius:4px;height:22px;position:relative}
+.hbar-fill{height:22px;border-radius:4px;background:var(--navy-800)}
+.hbar-fill.red{background:var(--red-600)}
+.hbar-fill.teal{background:var(--teal)}
+.hbar-val{font-family:var(--font-mono);font-size:13px;text-align:right;white-space:nowrap}
+svg.chart{width:100%;height:auto;display:block}
+.axis{font-size:11px;font-weight:600;fill:var(--muted)}
+.vlab{font-size:12px;font-weight:700;fill:var(--ink)}
+.takeaway{background:var(--navy-soft-bg);border-radius:8px;padding:14px 16px;font-size:14px;margin-top:14px}
+.stat-mini{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.stat-mini div{background:var(--paper);border:1px solid var(--border-soft);border-radius:8px;padding:10px 12px}
+.stat-mini b{display:block;font-size:17px;color:var(--navy-900)}
+.stat-mini span{font-size:12px;color:var(--muted)}
+.kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:16px}
+.kpi-strip .kpi-value{font-size:26px}
+.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.controls input[type="search"],.controls select{height:40px;border:1px solid var(--border);border-radius:8px;padding:0 12px;font-size:14px;font-family:inherit;background:#fff;color:var(--ink)}
+.controls input[type="search"]{flex:1;min-width:200px}
+.count{font-size:13px;color:var(--muted);font-weight:600}
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:12px;background:#fff}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:760px}
+thead th{position:sticky;top:0;background:var(--navy-900);color:#fff;text-align:left;padding:11px 12px;font-size:13px;white-space:nowrap;cursor:pointer;user-select:none}
+thead th.num,td.num{text-align:right;font-family:var(--font-mono)}
+tbody td{padding:9px 12px;border-top:1px solid var(--border-soft)}
+tbody tr:nth-child(even){background:var(--paper)}
+tbody tr:hover{background:var(--navy-soft-bg)}
+.empty{padding:28px;text-align:center;color:var(--muted)}
+.footnote{font-size:12px;color:var(--muted);margin:10px 0 0}
+.sources-list{font-size:14px}
+.sources-list li{margin-bottom:10px}
+.methods{background:var(--navy-soft-bg);border-radius:8px;padding:16px 18px;font-size:14px}
+footer{background:var(--navy-900);color:#D7E2EC;margin-top:48px;padding:32px 0 24px}
+footer .cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px}
+footer h4{color:#fff;margin:0 0 8px;font-size:15px}
+footer a{color:#D7E2EC}
+footer .bottom{border-top:1px solid #1D4266;margin-top:24px;padding-top:16px;font-size:12px;color:#9FB3C8}
+@media (max-width:900px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .grid-2,.grid-2e{grid-template-columns:1fr}
+  .kpi-strip{grid-template-columns:repeat(2,1fr)}
+  footer .cols{grid-template-columns:1fr}
+}
+@media (max-width:700px){
+  nav.main,.header-in .btn-white{display:none}
+  .hamb{display:block}
+  .header-in{height:56px}
+  h1{font-size:30px}
+  .lede{font-size:16px}
+  .kpis{grid-template-columns:1fr}
+  .kpi{padding:14px 16px}
+  .kpi-value{font-size:28px}
+  .wrap{padding:0 16px}
+  section{padding:36px 0 4px}
+  .card{padding:16px}
+  .hbar-row{grid-template-columns:110px 1fr 96px;font-size:12px}
+  .hbar-val{font-size:12px}
+  .stat-mini{grid-template-columns:1fr}
+  .kpi-strip{grid-template-columns:1fr}
+}
+</style>
 </head>
 <body>
 <header class="site">
-  <div class="header-inner">
-    <div class="brand">Nusa<span>Data</span></div>
-    <div class="tagline">Statistik Indonesia · Tahun jangkar 2024 · Semua angka bersumber</div>
+  <div class="wrap header-in">
+    <a class="logo" href="#overview"><span class="logo-mark">N</span><span><span class="logo-name">NusaData</span><br><span class="logo-tag">STATISTIK INDONESIA</span></span></a>
+    <nav class="main" aria-label="Navigasi utama">
+      <a href="#overview">Ringkasan</a><a href="#economy">Ekonomi</a><a href="#people">Penduduk</a><a href="#work">Ketenagakerjaan</a><a href="#prices">Harga &amp; Kemiskinan</a><a href="#provinces">Provinsi</a><a href="#sources">Sumber</a>
+    </nav>
+    <a class="btn btn-white" href="#provinces">38 Provinsi</a>
+    <button class="hamb" id="hamb" aria-expanded="false" aria-controls="mobileMenu" aria-label="Buka menu">☰</button>
   </div>
-  <nav class="top" aria-label="Navigasi utama">
-    <a class="nav-link" href="#/">Dashboard</a>
-    <a class="nav-link" href="#/penduduk">Penduduk</a>
-    <a class="nav-link" href="#/ekonomi">Ekonomi</a>
-    <a class="nav-link" href="#/kesehatan">Kesehatan</a>
-    <a class="nav-link" href="#/pendidikan">Pendidikan</a>
-    <a class="nav-link" href="#/provinsi">Provinsi</a>
-    <a class="nav-link" href="#/sumber">Sumber &amp; Metode</a>
-  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#overview">Ringkasan</a><a href="#economy">Ekonomi</a><a href="#people">Penduduk</a><a href="#work">Ketenagakerjaan</a><a href="#prices">Harga &amp; Kemiskinan</a><a href="#provinces">Provinsi</a><a href="#sources">Sumber</a>
+  </div>
 </header>
-<main id="view" aria-live="polite"></main>
-<footer class="site">
-  <div class="footer-inner">
-    <strong>NusaData — Statistik Indonesia.</strong> Angka dari BPS, Kemenkes (SSGI), dan World Bank; setiap angka memakai sumber dan tahun yang tertulis di sampingnya. Angka bertanda “derived” adalah aritmetika turunan dari angka yang ditampilkan. Situs ini bekerja sepenuhnya offline dari file-nya sendiri.
+<div class="strip"><div class="wrap"><span>● Data resmi · BPS, Bank Indonesia, Kementerian Keuangan</span><span>Terakhir diperbarui: 2024 · 38 provinsi · 281,6 juta jiwa</span></div></div>
+
+<main>
+<section id="overview" style="padding-top:0">
+  <div class="wrap hero">
+    <p class="kicker">Portal Statistik Nasional — Indonesia</p>
+    <h1>Indonesia dalam Angka <span class="red">2024</span></h1>
+    <p class="lede">Penduduk, ekonomi, pekerjaan, harga, dan kemiskinan — 38 provinsi dalam satu tempat. Semua angka terverifikasi dari BPS dan sumber resmi.</p>
+    <div class="chips"><span class="chip">281,6 jt penduduk</span><span class="chip">Rp 22.139 T PDB</span><span class="chip">5,03% pertumbuhan</span><span class="chip">38 provinsi</span></div>
+    <div class="kpis">
+      <div class="kpi"><p class="kpi-label">Penduduk</p><p class="kpi-value">281,6 jt</p><p class="kpi-delta"><span class="up">▲ +1,0% YoY</span> · 2024</p></div>
+      <div class="kpi"><p class="kpi-label">PDB</p><p class="kpi-value">Rp 22.139 T</p><p class="kpi-delta">≈ US$1,40 T · 2024</p></div>
+      <div class="kpi hot"><p class="kpi-label">Pertumbuhan Ekonomi</p><p class="kpi-value">5,03%</p><p class="kpi-delta"><span class="up">▲ 2024</span> · c-to-c</p></div>
+      <div class="kpi"><p class="kpi-label">Inflasi</p><p class="kpi-value">1,57%</p><p class="kpi-delta"><span class="down">▼ dari 2,61%</span> · Des yoy</p></div>
+      <div class="kpi"><p class="kpi-label">Kemiskinan</p><p class="kpi-value">9,03%</p><p class="kpi-delta"><span class="down">▼ 25,22 jt jiwa</span> · Mar 2024</p></div>
+    </div>
+    <p class="src-note">Sumber: BPS, 2024 — lihat <a href="#sources">Sumber &amp; Metode</a></p>
+    <div class="grid-2" style="margin-top:16px">
+      <div class="card" style="margin-bottom:0">
+        <h3>PDB Indonesia 2019–2024</h3>
+        <p class="sub">PDB harga berlaku, dalam Rp triliun · <span class="src">BPS</span></p>
+        <div id="miniGdp"></div>
+      </div>
+      <div class="card" style="margin-bottom:0">
+        <h3>Provinsi Terpadat</h3>
+        <p class="sub">Penduduk 2024, dalam juta jiwa · <span class="src">BPS</span></p>
+        <div id="top5"></div>
+        <p class="legend"><a href="#provinces">Lihat 38 provinsi →</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="economy"><div class="wrap">
+  <p class="kicker">Ekonomi</p>
+  <h2>PDB, pertumbuhan, dan inflasi</h2>
+  <p class="intro">PDB, pertumbuhan, inflasi, dan struktur sektoral — 2015–2024.</p>
+  <div class="grid-2">
+    <div class="card">
+      <h3>PDB &amp; Pertumbuhan 2019–2024</h3>
+      <p class="sub">Batang: PDB nominal (Rp triliun) · Garis: pertumbuhan (% yoy) · <span class="src">BPS</span></p>
+      <div class="toggle-row" role="group" aria-label="Mode grafik PDB">
+        <button class="pill" id="gdpModeNominal" aria-pressed="true">PDB nominal</button>
+        <button class="pill" id="gdpModeGrowth" aria-pressed="false">Pertumbuhan %</button>
+      </div>
+      <div id="gdpChart"></div>
+      <p class="legend"><span class="sw" style="background:#0F3557"></span>PDB (Rp T) &nbsp; <span class="sw" style="background:#C8102E"></span>Pertumbuhan (%)</p>
+    </div>
+    <div class="card">
+      <h3>Inflasi 2019–2024</h3>
+      <p class="sub">IHK Desember yoy, dalam % · <span class="src">BPS / Bank Indonesia</span></p>
+      <div id="inflChart"></div>
+      <p class="legend">Pita biru: sasaran BI 2–4% (2024: 2,5% ±1%). Inflasi 2024 sebesar 1,57% masih dalam sasaran.</p>
+      <div class="stat-mini">
+        <div><b>1,57%</b><span>Inflasi 2024</span></div>
+        <div><b>5,51%</b><span>Puncak 2022</span></div>
+        <div><b>2,5% ±1%</b><span>Target BI 2024</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Struktur Ekonomi menurut Lapangan Usaha 2024</h3>
+    <p class="sub">Pangsa PDB harga berlaku · <span class="src">BPS / Bank Indonesia</span></p>
+    <div id="sectors"></div>
+    <div class="takeaway"><b>Yang perlu dicatat:</b> lima lapangan usaha terbesar menyumbang sekitar 64,0% PDB. Industri pengolahan tetap kontributor terbesar (19,0%), diikuti perdagangan (13,1%) dan pertanian, kehutanan &amp; perikanan (12,6%). Pertumbuhan tertinggi 2024: jasa lainnya 9,80%, transportasi &amp; pergudangan 8,69%.</div>
+  </div>
+</div></section>
+
+<section id="people"><div class="wrap">
+  <p class="kicker">Penduduk</p>
+  <h2>281,6 juta jiwa di 38 provinsi</h2>
+  <p class="intro">Sebaran penduduk, struktur umur, dan urbanisasi.</p>
+  <div class="grid-2e">
+    <div class="card">
+      <h3>10 Provinsi Terpadat 2024</h3>
+      <p class="sub">Penduduk dalam juta jiwa · <span class="src">BPS</span></p>
+      <div class="toggle-row" role="group" aria-label="Urutkan provinsi terpadat">
+        <button class="pill" id="popSortDesc" aria-pressed="true">Terbanyak</button>
+        <button class="pill" id="popSortAlpha" aria-pressed="false">Abjad</button>
+      </div>
+      <div id="top10"></div>
+      <p class="legend">Pulau Jawa menampung 55,9% penduduk (157,39 juta jiwa, Dukcapil Semester I 2024). Kepadatan nasional 149 jiwa/km².</p>
+    </div>
+    <div class="card">
+      <h3>Struktur Umur</h3>
+      <p class="sub">Pangsa penduduk menurut kelompok umur · <span class="src">Bank Dunia 2025</span></p>
+      <div id="ageBars"></div>
+      <div class="stat-mini">
+        <div><b>45,1</b><span>Rasio ketergantungan per 100 usia produktif (SUPAS 2025)</span></div>
+        <div><b>58,8%</b><span>Penduduk perkotaan, 2024</span></div>
+        <div><b>24,9%</b><span>Gen Z — generasi terbesar (SUPAS 2025)</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Pertumbuhan Penduduk 2020–2024</h3>
+    <p class="sub">Proyeksi penduduk pertengahan tahun, dalam juta jiwa · <span class="src">BPS</span></p>
+    <div id="popTrend"></div>
+    <p class="legend">Sensus 2020: 270,20 juta jiwa. Laju tumbuh sekitar 1,0% per tahun. Luas daratan 1.890.180 km², 17.380 pulau (BIG 2024).</p>
+  </div>
+</div></section>
+
+<section id="work"><div class="wrap">
+  <p class="kicker">Ketenagakerjaan</p>
+  <h2>152,11 juta angkatan kerja</h2>
+  <p class="intro">Survei Angkatan Kerja Nasional (Sakernas), Agustus 2024 — BPS.</p>
+  <div class="kpi-strip">
+    <div class="kpi"><p class="kpi-label">Angkatan Kerja</p><p class="kpi-value">152,11 jt</p><p class="kpi-delta">TPAK 70,63%</p></div>
+    <div class="kpi hot"><p class="kpi-label">TPT</p><p class="kpi-value">4,91%</p><p class="kpi-delta"><span class="down">▼ dari 5,32%</span> · Agu 2023</p></div>
+    <div class="kpi"><p class="kpi-label">Pekerja Formal</p><p class="kpi-value">42,05%</p><p class="kpi-delta">60,81 jt jiwa</p></div>
+    <div class="kpi"><p class="kpi-label">Upah Rata-rata</p><p class="kpi-value">Rp 3,27 jt</p><p class="kpi-delta">per bulan, buruh/karyawan</p></div>
+  </div>
+  <div class="grid-2e">
+    <div class="card">
+      <h3>Pengangguran menurut Provinsi</h3>
+      <p class="sub">TPT tertinggi dan terendah, Agustus 2024 (%) · <span class="src">BPS</span></p>
+      <div class="controls">
+        <label for="tptRegion" style="font-weight:600;font-size:14px">Wilayah:</label>
+        <select id="tptRegion">
+          <option value="Semua">Semua wilayah</option>
+          <option value="Jawa">Jawa</option>
+          <option value="Sumatera">Sumatera</option>
+          <option value="Bali &amp; Nusa Tenggara">Bali &amp; Nusa Tenggara</option>
+          <option value="Maluku &amp; Papua">Maluku &amp; Papua</option>
+        </select>
+      </div>
+      <div id="tptBars"></div>
+      <p class="legend">Garis putus-putus: rata-rata nasional 4,91%. Hanya 11 provinsi yang ditampilkan — TPT provinsi lainnya belum terverifikasi satu per satu.</p>
+    </div>
+    <div class="card">
+      <h3>Angkatan Kerja &amp; Lapangan Kerja</h3>
+      <p class="sub">Agustus 2024, dalam juta jiwa · <span class="src">BPS Sakernas</span></p>
+      <div id="workBars"></div>
+      <div class="stat-mini">
+        <div><b>144,64 jt</b><span>Bekerja</span></div>
+        <div><b>7,47 jt</b><span>Penganggur</span></div>
+        <div><b>28,18%</b><span>Pekerja di pertanian</span></div>
+      </div>
+      <p class="legend">Pekerja penuh 98,45 juta · paruh waktu 34,63 juta · setengah penganggur 11,56 juta. Pekerja informal 57,95%.</p>
+    </div>
+  </div>
+</div></section>
+
+<section id="prices"><div class="wrap">
+  <p class="kicker">Harga &amp; Kemiskinan</p>
+  <h2>Kemiskinan turun ke 9,03%</h2>
+  <p class="intro">Tingkat kemiskinan, ketimpangan, dan inflasi — BPS &amp; Bank Indonesia.</p>
+  <div class="grid-2e">
+    <div class="card">
+      <h3>Tingkat Kemiskinan 2019–2024</h3>
+      <p class="sub">Maret tiap tahun, dalam % penduduk · <span class="src">BPS Susenas</span></p>
+      <div id="povChart"></div>
+      <p class="legend">September 2024: 8,57% (24,06 juta jiwa) — terendah sepanjang sejarah. Deret di atas memakai angka Maret agar dapat dibandingkan.</p>
+    </div>
+    <div class="card">
+      <h3>Kemiskinan Kota–Desa &amp; Ketimpangan</h3>
+      <p class="sub">Maret 2024 · <span class="src">BPS / Kementerian Keuangan</span></p>
+      <div id="povSplit"></div>
+      <div class="stat-mini">
+        <div><b>0,379</b><span>Rasio Gini Mar 2024 (Mar 2023: 0,388)</span></div>
+        <div><b>25,22 jt</b><span>Penduduk miskin Mar 2024</span></div>
+        <div><b>11,79%</b><span>Kemiskinan perdesaan vs 7,09% perkotaan</span></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section id="provinces"><div class="wrap">
+  <p class="kicker">Jelajahi Provinsi</p>
+  <h2>38 provinsi — cari, urutkan, bandingkan</h2>
+  <p class="intro">Penduduk proyeksi pertengahan 2024 dan PDRB harga berlaku 2024 — BPS.</p>
+  <div class="card">
+    <div class="controls">
+      <label for="provSearch" style="font-weight:600;font-size:14px">Cari:</label>
+      <input type="search" id="provSearch" aria-label="Cari provinsi">
+      <select id="provRegion" aria-label="Filter wilayah">
+        <option value="Semua">Semua wilayah</option>
+        <option value="Sumatera">Sumatera</option>
+        <option value="Jawa">Jawa</option>
+        <option value="Bali &amp; Nusa Tenggara">Bali &amp; Nusa Tenggara</option>
+        <option value="Kalimantan">Kalimantan</option>
+        <option value="Sulawesi">Sulawesi</option>
+        <option value="Maluku &amp; Papua">Maluku &amp; Papua</option>
+      </select>
+      <select id="provSort" aria-label="Urutkan provinsi">
+        <option value="pop-desc">Populasi ↓</option>
+        <option value="pop-asc">Populasi ↑</option>
+        <option value="pdrb-desc">PDRB ↓</option>
+        <option value="pdrb-asc">PDRB ↑</option>
+        <option value="name-asc">Nama A–Z</option>
+      </select>
+      <button class="btn btn-navy" id="provReset" type="button">Reset</button>
+      <button class="btn btn-ghost" id="downloadCsv" type="button">Unduh Ringkasan (CSV)</button>
+    </div>
+    <p class="count" id="provCount">Menampilkan 38 dari 38 provinsi</p>
+    <div class="table-wrap">
+      <table id="provTable">
+        <thead><tr>
+          <th data-sort="name">Provinsi</th><th data-sort="capital">Ibu Kota</th><th data-sort="island">Pulau / Wilayah</th>
+          <th class="num" data-sort="pop">Penduduk (jiwa)</th><th class="num" data-sort="pdrb">PDRB (Rp M)</th>
+          <th class="num" data-sort="capita">PDRB per Kapita (Rp jt)</th><th class="num" data-sort="tpt">TPT (%)</th>
+        </tr></thead>
+        <tbody id="provBody"></tbody>
+      </table>
+      <div class="empty" id="provEmpty" hidden>Tidak ada provinsi yang cocok. <button class="btn btn-navy" id="provEmptyReset" type="button">Reset filter</button></div>
+    </div>
+    <p class="footnote">Jumlah PDRB provinsi Rp 22.004 triliun — sedikit di bawah PDB nasional Rp 22.139 triliun; jumlah PDRB memang tidak sama dengan PDB nasional. “—” pada PDRB enam provinsi Papua: PDRB 2024 untuk provinsi hasil pemekaran Papua belum terpisah dalam publikasi BPS yang dikutip. TPT ditampilkan hanya untuk 11 provinsi yang terverifikasi (Sakernas Agustus 2024).</p>
+  </div>
+  <div class="card">
+    <h3>PDRB 10 Provinsi Terbesar 2024</h3>
+    <p class="sub">PDRB harga berlaku, dalam Rp triliun · <span class="src">BPS</span></p>
+    <div id="pdrbTop"></div>
+  </div>
+</div></section>
+
+<section id="sources"><div class="wrap">
+  <p class="kicker">Sumber &amp; Metode</p>
+  <h2>Dari mana angka-angka ini berasal</h2>
+  <p class="intro">Setiap angka di situs ini menyebut sumber dan tahunnya.</p>
+  <div class="grid-2e">
+    <div class="card">
+      <h3>Sumber</h3>
+      <ol class="sources-list">
+        <li><b>Badan Pusat Statistik (BPS)</b> — Pertumbuhan Ekonomi 2024 (rilis 5 Februari 2025); Statistik Indonesia 2024; Proyeksi Penduduk 2020–2050 hasil Sensus Penduduk 2020; Booklet Sakernas Agustus 2024; Profil Kemiskinan Maret &amp; September 2024 (Susenas).</li>
+        <li><b>Bank Indonesia</b> — Tabel Target Inflasi (IHK Desember yoy); tabel PDB menurut lapangan usaha.</li>
+        <li><b>Kementerian Keuangan</b> — Siaran pers BKF tentang kemiskinan dan rasio Gini Maret 2024.</li>
+        <li><b>Kemendagri Dukcapil</b> — Data Kependudukan Semester I 2024; <b>BIG</b> — jumlah pulau dan luas wilayah 2024.</li>
+        <li><b>Bank Dunia (WDI)</b> — pangsa penduduk perkotaan dan struktur umur, diberi label tahun 2024/2025 secara eksplisit.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Metode &amp; Catatan</h3>
+      <div class="methods">
+        <p><b>Definisi.</b> PDB ADHB = harga berlaku; pertumbuhan = harga konstan 2010, c-to-c; inflasi = IHK Desember yoy; TPT = penganggur ÷ angkatan kerja (Sakernas Agustus); kemiskinan = Susenas, Maret &amp; September; PDRB provinsi = ADHB, jumlah provinsi tidak sama dengan PDB nasional.</p>
+        <p><b>Angka 2024</b> adalah angka BPS yang dirilis 2024–2025; pembulatan dapat menyebabkan selisih ±0,1.</p>
+        <p><b>Keterbatasan.</b> PDRB enam provinsi hasil pemekaran Papua belum terpisah dalam publikasi BPS yang dikutip, sehingga ditampilkan “—”. TPT provinsi ditampilkan hanya bila terverifikasi. Angka PBB (283,49 juta) tidak dipakai sebagai angka BPS — BPS memakai 281,6 juta.</p>
+      </div>
+    </div>
+  </div>
+</div></section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div><h4>NusaData</h4><p>Statistik Indonesia dalam satu tempat — penduduk, ekonomi, pekerjaan, harga, dan kemiskinan.</p></div>
+      <div><h4>Jelajahi</h4><p><a href="#overview">Ringkasan</a> · <a href="#economy">Ekonomi</a> · <a href="#people">Penduduk</a> · <a href="#work">Ketenagakerjaan</a> · <a href="#prices">Harga &amp; Kemiskinan</a> · <a href="#provinces">Provinsi</a> · <a href="#sources">Sumber</a></p></div>
+      <div><h4>Catatan data</h4><p>Semua angka dari BPS / Bank Indonesia / Kementerian Keuangan — lihat Sumber &amp; Metode.</p></div>
+    </div>
+    <p class="bottom">NusaData — Statistik Indonesia · Data terakhir: 2024 · Dibangun tanpa koneksi eksternal</p>
   </div>
 </footer>
-<script type="module" src="./main.js"></script>
+
+<script>
+"use strict";
+var DATA = {
+  years: [2019, 2020, 2021, 2022, 2023, 2024],
+  gdp: [15832.7, 15443.4, 16976.7, 19588.5, 20892.4, 22139.0],
+  growth: [5.02, -2.07, 3.70, 5.31, 5.05, 5.03],
+  inflation: [2.72, 1.68, 1.87, 5.51, 2.61, 1.57],
+  popTrend: [[2020, 270.20], [2021, 272.68], [2022, 275.72], [2023, 278.70], [2024, 281.60]],
+  sectors: [
+    ["Industri Pengolahan", 4202.9, "19,0%"],
+    ["Perdagangan Besar & Eceran", 2893.3, "13,1%"],
+    ["Pertanian, Kehutanan & Perikanan", 2791.7, "12,6%"],
+    ["Konstruksi", 2233.5, "10,1%"],
+    ["Pertambangan & Penggalian", 2026.6, "9,2%"],
+    ["Lapangan usaha lainnya", 7955.0, "36,0%"]
+  ],
+  age: [["0–14 tahun", 24.2], ["15–64 tahun", 68.2], ["65+ tahun", 7.6]],
+  poverty: [[2019, 9.41, 25.14], [2020, 9.78, 26.42], [2021, 10.14, 27.54], [2022, 9.54, 26.16], [2023, 9.36, 25.90], [2024, 9.03, 25.22]],
+  povSplit: [["Perkotaan", 7.09], ["Perdesaan", 11.79]],
+  tpt: [
+    ["Jawa Barat", "Jawa", 6.75], ["Banten", "Jawa", 6.68], ["Papua", "Maluku & Papua", 6.48],
+    ["Papua Barat Daya", "Maluku & Papua", 6.48], ["Kepulauan Riau", "Sumatera", 6.39], ["DKI Jakarta", "Jawa", 6.21],
+    ["Papua Pegunungan", "Maluku & Papua", 1.32], ["Bali", "Bali & Nusa Tenggara", 1.79],
+    ["Nusa Tenggara Barat", "Bali & Nusa Tenggara", 2.73], ["Papua Tengah", "Maluku & Papua", 2.75],
+    ["Nusa Tenggara Timur", "Bali & Nusa Tenggara", 3.02]
+  ],
+  work: [["Bekerja penuh", 98.45], ["Bekerja paruh waktu", 34.63], ["Setengah penganggur", 11.56]],
+  provinces: [
+    ["Aceh", "Banda Aceh", "Sumatera", 5554.8, 243.2, null],
+    ["Sumatera Utara", "Medan", "Sumatera", 15588.5, 1146.9, null],
+    ["Sumatera Barat", "Padang", "Sumatera", 5836.2, 332.9, null],
+    ["Riau", "Pekanbaru", "Sumatera", 6728.1, 1112.5, null],
+    ["Jambi", "Jambi", "Sumatera", 3724.3, 323.0, null],
+    ["Sumatera Selatan", "Palembang", "Sumatera", 8837.3, 664.0, null],
+    ["Bengkulu", "Bengkulu", "Sumatera", 2112.2, 104.0, null],
+    ["Lampung", "Bandar Lampung", "Sumatera", 9419.6, 483, null],
+    ["Kep. Bangka Belitung", "Pangkal Pinang", "Sumatera", 1531.5, 107, null],
+    ["Kepulauan Riau", "Tanjung Pinang", "Sumatera", 2183.3, 352.4, 6.39],
+    ["DKI Jakarta", "Jakarta", "Jawa", 10684.9, 3679.4, 6.21],
+    ["Jawa Barat", "Bandung", "Jawa", 50345.2, 2823.3, 6.75],
+    ["Jawa Tengah", "Semarang", "Jawa", 37892.3, 1817.8, null],
+    ["DI Yogyakarta", "Yogyakarta", "Jawa", 3759.5, 193.5, null],
+    ["Jawa Timur", "Surabaya", "Jawa", 41814.5, 3168.3, null],
+    ["Banten", "Serang", "Jawa", 12431.4, 873.6, 6.68],
+    ["Bali", "Denpasar", "Bali & Nusa Tenggara", 4433.3, 299, 1.79],
+    ["Nusa Tenggara Barat", "Mataram", "Bali & Nusa Tenggara", 5646.0, 182, 2.73],
+    ["Nusa Tenggara Timur", "Kupang", "Bali & Nusa Tenggara", 5656.0, 132, 3.02],
+    ["Kalimantan Barat", "Pontianak", "Kalimantan", 5695.5, 300.2, null],
+    ["Kalimantan Tengah", "Palangka Raya", "Kalimantan", 2809.7, 222.9, null],
+    ["Kalimantan Selatan", "Banjarbaru", "Kalimantan", 4273.4, 286.8, null],
+    ["Kalimantan Timur", "Samarinda", "Kalimantan", 4045.9, 858.4, null],
+    ["Kalimantan Utara", "Tanjung Selor", "Kalimantan", 739.8, 146.8, null],
+    ["Sulawesi Utara", "Manado", "Sulawesi", 2701.8, 187.4, null],
+    ["Sulawesi Tengah", "Palu", "Sulawesi", 3121.8, 377.0, null],
+    ["Sulawesi Selatan", "Makassar", "Sulawesi", 9463.4, 696.3, null],
+    ["Sulawesi Tenggara", "Kendari", "Sulawesi", 2793.1, 189, null],
+    ["Gorontalo", "Gorontalo", "Sulawesi", 1227.8, 54, null],
+    ["Sulawesi Barat", "Mamuju", "Sulawesi", 1503.2, 64, null],
+    ["Maluku", "Ambon", "Maluku & Papua", 1945.6, 63, null],
+    ["Maluku Utara", "Sofifi", "Maluku & Papua", 1355.6, 95, null],
+    ["Papua", "Jayapura", "Maluku & Papua", 1060.6, null, 6.48],
+    ["Papua Barat", "Manokwari", "Maluku & Papua", 578.7, null, null],
+    ["Papua Barat Daya", "Sorong", "Maluku & Papua", 627.1, null, 6.48],
+    ["Papua Selatan", "Merauke", "Maluku & Papua", 542.1, null, null],
+    ["Papua Tengah", "Nabire", "Maluku & Papua", 1472.9, null, 2.75],
+    ["Papua Pegunungan", "Wamena", "Maluku & Papua", 1467.0, null, 1.32]
+  ]
+};
+
+function fmt(n, d) {
+  return n.toLocaleString("id-ID", { minimumFractionDigits: d == null ? 0 : d, maximumFractionDigits: d == null ? 0 : d });
+}
+function el(id) { return document.getElementById(id); }
+function svgOpen(w, h) {
+  return '<svg class="chart" viewBox="0 0 ' + w + ' ' + h + '" role="img">';
+}
+
+/* --- horizontal bar rows (pure HTML/CSS) --- */
+function hbars(rows, maxVal, unit) {
+  var out = "";
+  rows.forEach(function (r, i) {
+    var pct = Math.min(100, Math.max(0, (r[1] / maxVal) * 100));
+    out += '<div class="hbar-row"><span class="lbl">' + r[0] + '</span>' +
+      '<div class="hbar-track"><div class="hbar-fill' + (i === 0 ? ' red' : '') + '" style="width:' + pct.toFixed(1) + '%"></div></div>' +
+      '<span class="hbar-val">' + fmt(r[1], 1) + (unit || '') + '</span></div>';
+  });
+  return out;
+}
+function hbarsLabeled(rows, maxVal) {
+  var out = "";
+  rows.forEach(function (r, i) {
+    var pct = Math.min(100, Math.max(0, (r[1] / maxVal) * 100));
+    out += '<div class="hbar-row"><span class="lbl">' + r[0] + '</span>' +
+      '<div class="hbar-track"><div class="hbar-fill' + (i === 0 ? ' red' : '') + '" style="width:' + pct.toFixed(1) + '%"></div></div>' +
+      '<span class="hbar-val">' + r[2] + '</span></div>';
+  });
+  return out;
+}
+
+/* --- mini GDP bars for the cover --- */
+function renderMiniGdp() {
+  var vals = DATA.gdp, max = 24000, W = 720, H = 200, padL = 46, padB = 26, padT = 22;
+  var cw = (W - padL - 10) / vals.length, bw = 52, s = "";
+  s += svgOpen(W, H) + '<title>PDB Indonesia 2019–2024</title>';
+  [0, 8000, 16000, 24000].forEach(function (v) {
+    var y = padT + (1 - v / max) * (H - padT - padB);
+    s += '<line x1="' + padL + '" y1="' + y + '" x2="' + (W - 10) + '" y2="' + y + '" stroke="#E9EDF1"/>';
+    s += '<text class="axis" x="' + (padL - 6) + '" y="' + (y + 4) + '" text-anchor="end">' + fmt(v) + '</text>';
+  });
+  vals.forEach(function (v, i) {
+    var x = padL + i * cw + (cw - bw) / 2;
+    var h = (v / max) * (H - padT - padB);
+    var y = padT + (H - padT - padB) - h;
+    s += '<rect x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + bw + '" height="' + h.toFixed(1) + '" rx="3" fill="' + (i === vals.length - 1 ? '#C8102E' : '#0F3557') + '"/>';
+    s += '<text class="vlab" x="' + (x + bw / 2).toFixed(1) + '" y="' + (y - 6).toFixed(1) + '" text-anchor="middle">' + fmt(v) + '</text>';
+    s += '<text class="axis" x="' + (x + bw / 2).toFixed(1) + '" y="' + (H - 8) + '" text-anchor="middle">' + DATA.years[i] + '</text>';
+  });
+  s += '</svg>';
+  el("miniGdp").innerHTML = s;
+}
+
+/* --- main GDP chart: bars + growth line, with mode toggle --- */
+var gdpMode = "nominal";
+function renderGdp() {
+  var W = 720, H = 320, padL = 52, padR = 46, padB = 28, padT = 26;
+  var maxV = 24000, s = "";
+  s += svgOpen(W, H) + '<title>PDB dan pertumbuhan ekonomi 2019–2024</title>';
+  [0, 8000, 16000, 24000].forEach(function (v) {
+    var y = padT + (1 - v / maxV) * (H - padT - padB);
+    s += '<line x1="' + padL + '" y1="' + y + '" x2="' + (W - padR) + '" y2="' + y + '" stroke="#E9EDF1"/>';
+    s += '<text class="axis" x="' + (padL - 6) + '" y="' + (y + 4) + '" text-anchor="end">' + fmt(v) + '</text>';
+  });
+  var cw = (W - padL - padR) / DATA.years.length, bw = 44;
+  function yG(p) { return padT + (1 - (p + 3) / 10) * (H - padT - padB); }
+  if (gdpMode === "nominal") {
+    DATA.gdp.forEach(function (v, i) {
+      var x = padL + i * cw + (cw - bw) / 2;
+      var h = (v / maxV) * (H - padT - padB);
+      var y = padT + (H - padT - padB) - h;
+      s += '<rect x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + bw + '" height="' + h.toFixed(1) + '" rx="3" fill="' + (i === DATA.gdp.length - 1 ? '#C8102E' : '#0F3557') + '"/>';
+      /* Value inside the bar near its foot (white): the growth line runs just
+         above the bar tops, so a label at the top would collide with it. */
+      s += '<text class="vlab" style="fill:#fff" x="' + (x + bw / 2).toFixed(1) + '" y="' + (padT + (H - padT - padB) - 8).toFixed(1) + '" text-anchor="middle">' + fmt(v) + '</text>';
+    });
+  } else {
+    DATA.growth.forEach(function (v, i) {
+      var x = padL + i * cw + (cw - bw) / 2;
+      var h = Math.abs(v) / 7 * (H - padT - padB);
+      var base = yG(0);
+      var y = v >= 0 ? base - h : base;
+      s += '<rect x="' + x.toFixed(1) + '" y="' + y.toFixed(1) + '" width="' + bw + '" height="' + h.toFixed(1) + '" rx="3" fill="' + (v < 0 ? '#C8102E' : '#0E7C7B') + '"/>';
+      s += '<text class="vlab" x="' + (x + bw / 2).toFixed(1) + '" y="' + (v >= 0 ? y - 6 : y + h + 14).toFixed(1) + '" text-anchor="middle">' + fmt(v, 2).replace(".", ",") + '%</text>';
+    });
+    s += '<line x1="' + padL + '" y1="' + yG(0) + '" x2="' + (W - padR) + '" y2="' + yG(0) + '" stroke="#5B6B7C" stroke-dasharray="4 3"/>';
+  }
+  if (gdpMode === "nominal") {
+    var pts = DATA.growth.map(function (v, i) {
+      return (padL + i * cw + cw / 2).toFixed(1) + ',' + yG(v).toFixed(1);
+    }).join(" ");
+    s += '<polyline points="' + pts + '" fill="none" stroke="#C8102E" stroke-width="3"/>';
+    DATA.growth.forEach(function (v, i) {
+      var cx = padL + i * cw + cw / 2;
+      s += '<circle cx="' + cx.toFixed(1) + '" cy="' + yG(v).toFixed(1) + '" r="5" fill="#C8102E" stroke="#fff" stroke-width="1.5"/>';
+      /* Label only the two end points clear of the bar labels (2019 high, 2020 low);
+         labelling every year collides with the PDB values above the bars. */
+      if (i === 0 || i === 1) s += '<text class="vlab" x="' + cx.toFixed(1) + '" y="' + (yG(v) - 10).toFixed(1) + '" text-anchor="middle">' + fmt(v, 2).replace(".", ",") + '%</text>';
+    });
+    s += '<text class="axis" x="' + (W - padR + 6) + '" y="' + (padT + 4) + '">% yoy</text>';
+  }
+  DATA.years.forEach(function (y, i) {
+    var cx = padL + i * cw + cw / 2;
+    s += '<text class="axis" x="' + cx.toFixed(1) + '" y="' + (H - 8) + '" text-anchor="middle">' + y + '</text>';
+  });
+  s += '</svg>';
+  el("gdpChart").innerHTML = s;
+}
+
+/* --- generic line chart (inflation, poverty) --- */
+function lineChart(id, values, years, yMin, yMax, yLabel, color, band) {
+  var W = 560, H = 300, padL = 44, padR = 14, padB = 28, padT = 26, s = "";
+  s += svgOpen(W, H) + '<title>Grafik garis</title>';
+  if (band) {
+    var by1 = padT + (1 - (band[1] - yMin) / (yMax - yMin)) * (H - padT - padB);
+    var by2 = padT + (1 - (band[0] - yMin) / (yMax - yMin)) * (H - padT - padB);
+    s += '<rect x="' + padL + '" y="' + by1.toFixed(1) + '" width="' + (W - padL - padR) + '" height="' + (by2 - by1).toFixed(1) + '" fill="#EAF0F6"/>';
+    s += '<text class="axis" x="' + (padL + 6) + '" y="' + (by1 + 14) + '">Sasaran BI 2–4%</text>';
+  }
+  var ticks = 5;
+  for (var t = 0; t <= ticks; t++) {
+    var v = yMin + (yMax - yMin) * t / ticks;
+    var y = padT + (1 - t / ticks) * (H - padT - padB);
+    s += '<line x1="' + padL + '" y1="' + y.toFixed(1) + '" x2="' + (W - padR) + '" y2="' + y.toFixed(1) + '" stroke="#E9EDF1"/>';
+    s += '<text class="axis" x="' + (padL - 6) + '" y="' + (y + 4).toFixed(1) + '" text-anchor="end">' + fmt(v, 1).replace(".", ",") + '</text>';
+  }
+  function X(i) { return padL + i * ((W - padL - padR) / (values.length - 1)); }
+  function Y(v) { return padT + (1 - (v - yMin) / (yMax - yMin)) * (H - padT - padB); }
+  var pts = values.map(function (v, i) { return X(i).toFixed(1) + ',' + Y(v).toFixed(1); }).join(" ");
+  s += '<polyline points="' + pts + '" fill="none" stroke="' + color + '" stroke-width="3"/>';
+  values.forEach(function (v, i) {
+    s += '<circle cx="' + X(i).toFixed(1) + '" cy="' + Y(v).toFixed(1) + '" r="4.5" fill="' + color + '" stroke="#fff" stroke-width="1.5"/>';
+    s += '<text class="vlab" x="' + X(i).toFixed(1) + '" y="' + (Y(v) - 9).toFixed(1) + '" text-anchor="middle">' + fmt(v, 2).replace(".", ",") + '%</text>';
+    s += '<text class="axis" x="' + X(i).toFixed(1) + '" y="' + (H - 8) + '" text-anchor="middle">' + years[i] + '</text>';
+  });
+  s += '<text class="axis" x="' + padL + '" y="12">' + yLabel + '</text>';
+  s += '</svg>';
+  el(id).innerHTML = s;
+}
+
+/* --- top provinces, sectors, age, work, poverty split, TPT, PDRB top --- */
+var popSort = "desc";
+function renderTop10() {
+  var rows = DATA.provinces.slice().sort(function (a, b) { return b[3] - a[3]; }).slice(0, 10)
+    .map(function (p) { return [p[0], p[3] / 1000]; });
+  if (popSort === "alpha") rows.sort(function (a, b) { return a[0] < b[0] ? -1 : 1; });
+  el("top10").innerHTML = hbars(rows, 50.4, " jt");
+  el("popSortDesc").setAttribute("aria-pressed", popSort === "desc" ? "true" : "false");
+  el("popSortAlpha").setAttribute("aria-pressed", popSort === "alpha" ? "true" : "false");
+}
+function renderTop5() {
+  var rows = DATA.provinces.slice().sort(function (a, b) { return b[3] - a[3]; }).slice(0, 5)
+    .map(function (p) { return [p[0], p[3] / 1000]; });
+  el("top5").innerHTML = hbars(rows, 50.4, " jt");
+}
+function renderSectors() {
+  var rows = DATA.sectors.map(function (s) { return [s[0], s[1], s[2] + " · Rp " + fmt(s[1]) + " T"]; });
+  el("sectors").innerHTML = hbarsLabeled(rows, 7955.0);
+}
+function renderAge() {
+  el("ageBars").innerHTML = hbars(DATA.age.map(function (a) { return [a[0], a[1]]; }), 68.2, "%");
+}
+function renderPopTrend() {
+  var vals = DATA.popTrend.map(function (p) { return p[1]; });
+  var years = DATA.popTrend.map(function (p) { return p[0]; });
+  var W = 1120, H = 260, padL = 46, padR = 14, padB = 28, padT = 26, s = "";
+  var yMin = 265, yMax = 285;
+  s += svgOpen(W, H) + '<title>Pertumbuhan penduduk 2020–2024</title>';
+  [265, 270, 275, 280, 285].forEach(function (v) {
+    var y = padT + (1 - (v - yMin) / (yMax - yMin)) * (H - padT - padB);
+    s += '<line x1="' + padL + '" y1="' + y.toFixed(1) + '" x2="' + (W - padR) + '" y2="' + y.toFixed(1) + '" stroke="#E9EDF1"/>';
+    s += '<text class="axis" x="' + (padL - 6) + '" y="' + (y + 4).toFixed(1) + '" text-anchor="end">' + v + '</text>';
+  });
+  function X(i) { return padL + i * ((W - padL - padR) / (vals.length - 1)); }
+  function Y(v) { return padT + (1 - (v - yMin) / (yMax - yMin)) * (H - padT - padB); }
+  var pts = vals.map(function (v, i) { return X(i).toFixed(1) + ',' + Y(v).toFixed(1); }).join(" ");
+  s += '<polygon points="' + padL + ',' + Y(vals[0]).toFixed(1) + ' ' + pts + ' ' + X(vals.length - 1).toFixed(1) + ',' + (H - padB) + ' ' + padL + ',' + (H - padB) + '" fill="#EAF0F6"/>';
+  s += '<polyline points="' + pts + '" fill="none" stroke="#0F3557" stroke-width="3"/>';
+  vals.forEach(function (v, i) {
+    s += '<circle cx="' + X(i).toFixed(1) + '" cy="' + Y(v).toFixed(1) + '" r="5" fill="#0F3557" stroke="#fff" stroke-width="1.5"/>';
+    s += '<text class="vlab" x="' + X(i).toFixed(1) + '" y="' + (Y(v) - 10).toFixed(1) + '" text-anchor="middle">' + fmt(v, 2).replace(".", ",") + '</text>';
+    s += '<text class="axis" x="' + X(i).toFixed(1) + '" y="' + (H - 8) + '" text-anchor="middle">' + years[i] + '</text>';
+  });
+  s += '<text class="axis" x="' + padL + '" y="12">juta jiwa</text></svg>';
+  el("popTrend").innerHTML = s;
+}
+function renderTpt() {
+  var region = el("tptRegion").value;
+  var rows = DATA.tpt.filter(function (t) { return region === "Semua" || t[1] === region; })
+    .slice().sort(function (a, b) { return b[2] - a[2]; });
+  var max = 7;
+  var out = "";
+  rows.forEach(function (r, i) {
+    var pct = (r[2] / max) * 100;
+    out += '<div class="hbar-row"><span class="lbl">' + r[0] + '</span>' +
+      '<div class="hbar-track"><div class="hbar-fill' + (i < 3 ? ' red' : '') + '" style="width:' + pct.toFixed(1) + '%"></div>' +
+      '<div style="position:absolute;left:70%;top:-4px;bottom:-4px;border-left:2px dashed #C8102E"></div></div>' +
+      '<span class="hbar-val">' + fmt(r[2], 2).replace(".", ",") + '%</span></div>';
+  });
+  if (!rows.length) out = '<p class="empty">Tidak ada data TPT terverifikasi untuk wilayah ini.</p>';
+  el("tptBars").innerHTML = out;
+}
+function renderWork() {
+  el("workBars").innerHTML = hbars(DATA.work.map(function (w) { return [w[0], w[1]]; }), 98.45, " jt");
+}
+function renderPovSplit() {
+  el("povSplit").innerHTML = hbars(DATA.povSplit.map(function (p) { return [p[0], p[1]]; }), 11.79, "%");
+}
+function renderPdrbTop() {
+  var rows = DATA.provinces.filter(function (p) { return p[4] != null; })
+    .slice().sort(function (a, b) { return b[4] - a[4]; }).slice(0, 10)
+    .map(function (p) { return [p[0], p[4], "Rp " + fmt(p[4]) + " T"]; });
+  el("pdrbTop").innerHTML = hbarsLabeled(rows, 3679.4);
+}
+
+/* --- provinces explorer --- */
+var provSortKey = "pop", provSortDir = -1;
+function capita(p) { return p[4] == null ? null : (p[4] * 1000) / p[3]; }
+function provRows() {
+  var q = el("provSearch").value.trim().toLowerCase();
+  var region = el("provRegion").value;
+  var rows = DATA.provinces.filter(function (p) {
+    if (region !== "Semua" && p[2] !== region) return false;
+    if (q && p[0].toLowerCase().indexOf(q) < 0 && p[1].toLowerCase().indexOf(q) < 0) return false;
+    return true;
+  });
+  var key = provSortKey, dir = provSortDir;
+  function val(p) {
+    if (key === "name") return p[0];
+    if (key === "capital") return p[1];
+    if (key === "island") return p[2];
+    if (key === "pop") return p[3];
+    if (key === "pdrb") return p[4];
+    if (key === "capita") return capita(p);
+    if (key === "tpt") return p[5];
+    return p[3];
+  }
+  rows.sort(function (a, b) {
+    var va = val(a), vb = val(b);
+    if (va == null && vb == null) return 0;
+    if (va == null) return 1;
+    if (vb == null) return -1;
+    if (va < vb) return -1 * dir;
+    if (va > vb) return 1 * dir;
+    return 0;
+  });
+  return rows;
+}
+function renderProvTable() {
+  var rows = provRows();
+  var body = el("provBody"), html = "";
+  rows.forEach(function (p) {
+    var cap = capita(p);
+    html += '<tr><td><b>' + p[0] + '</b></td><td>' + p[1] + '</td><td>' + p[2] + '</td>' +
+      '<td class="num">' + fmt(p[3] * 1000) + '</td>' +
+      '<td class="num">' + (p[4] == null ? "—" : fmt(p[4] * 1000)) + '</td>' +
+      '<td class="num">' + (cap == null ? "—" : fmt(cap, 1).replace(".", ",")) + '</td>' +
+      '<td class="num">' + (p[5] == null ? "—" : fmt(p[5], 2).replace(".", ",")) + '</td></tr>';
+  });
+  body.innerHTML = html;
+  el("provEmpty").hidden = rows.length !== 0;
+  el("provTable").style.display = rows.length === 0 ? "none" : "";
+  el("provCount").textContent = "Menampilkan " + rows.length + " dari 38 provinsi";
+  document.querySelectorAll("#provTable th").forEach(function (th) {
+    var k = th.getAttribute("data-sort");
+    var arrow = k === provSortKey ? (provSortDir === 1 ? " ▲" : " ▼") : "";
+    th.textContent = th.textContent.replace(/ [▲▼]$/, "") + arrow;
+    th.setAttribute("aria-sort", k === provSortKey ? (provSortDir === 1 ? "ascending" : "descending") : "none");
+  });
+}
+function applyProvSort(selectVal) {
+  var map = { "pop-desc": ["pop", -1], "pop-asc": ["pop", 1], "pdrb-desc": ["pdrb", -1], "pdrb-asc": ["pdrb", 1], "name-asc": ["name", 1] };
+  var m = map[selectVal] || ["pop", -1];
+  provSortKey = m[0]; provSortDir = m[1];
+  renderProvTable();
+}
+function resetProv() {
+  el("provSearch").value = "";
+  el("provRegion").value = "Semua";
+  el("provSort").value = "pop-desc";
+  provSortKey = "pop"; provSortDir = -1;
+  renderProvTable();
+}
+function downloadCsv() {
+  var lines = ["Provinsi,Ibu Kota,Pulau/Wilayah,Penduduk (jiwa),PDRB (Rp M),PDRB per Kapita (Rp jt),TPT (%)"];
+  DATA.provinces.forEach(function (p) {
+    var cap = capita(p);
+    lines.push('"' + p[0] + '","' + p[1] + '","' + p[2] + '",' + (p[3] * 1000) + ',' +
+      (p[4] == null ? "" : p[4] * 1000) + ',' + (cap == null ? "" : cap.toFixed(1)) + ',' + (p[5] == null ? "" : p[5].toFixed(2)));
+  });
+  lines.push("");
+  lines.push("Ringkasan 2024,Penduduk (juta),281.6,PDB (Rp triliun),22139,Pertumbuhan (%),5.03,Inflasi (%),1.57,TPT (%),4.91,Kemiskinan (%),9.03");
+  var blob = new Blob([lines.join("\n")], { type: "text/csv;charset=utf-8" });
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "nusadata-ringkasan-2024.csv";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+}
+
+/* --- wire up --- */
+document.addEventListener("DOMContentLoaded", function () {
+  renderMiniGdp();
+  renderGdp();
+  lineChart("inflChart", DATA.inflation, DATA.years, 0, 6, "% yoy", "#C8102E", [2, 4]);
+  renderSectors();
+  renderTop10();
+  renderTop5();
+  renderAge();
+  renderPopTrend();
+  renderTpt();
+  renderWork();
+  lineChart("povChart", DATA.poverty.map(function (p) { return p[1]; }), DATA.poverty.map(function (p) { return p[0]; }), 8, 11, "% penduduk", "#C8102E", null);
+  renderPovSplit();
+  renderProvTable();
+  renderPdrbTop();
+
+  /* Anchor links land after this script renders the charts and tables, so
+     re-apply the fragment scroll once layout is final (instant, not smooth). */
+  if (location.hash) {
+    var target = document.querySelector(location.hash);
+    if (target) {
+      document.documentElement.style.scrollBehavior = "auto";
+      target.scrollIntoView();
+    }
+  }
+
+  el("gdpModeNominal").addEventListener("click", function () {
+    gdpMode = "nominal";
+    el("gdpModeNominal").setAttribute("aria-pressed", "true");
+    el("gdpModeGrowth").setAttribute("aria-pressed", "false");
+    renderGdp();
+  });
+  el("gdpModeGrowth").addEventListener("click", function () {
+    gdpMode = "growth";
+    el("gdpModeGrowth").setAttribute("aria-pressed", "true");
+    el("gdpModeNominal").setAttribute("aria-pressed", "false");
+    renderGdp();
+  });
+  el("popSortDesc").addEventListener("click", function () { popSort = "desc"; renderTop10(); });
+  el("popSortAlpha").addEventListener("click", function () { popSort = "alpha"; renderTop10(); });
+  el("tptRegion").addEventListener("change", renderTpt);
+  el("provSearch").addEventListener("input", renderProvTable);
+  el("provRegion").addEventListener("change", renderProvTable);
+  el("provSort").addEventListener("change", function () { applyProvSort(el("provSort").value); });
+  el("provReset").addEventListener("click", resetProv);
+  el("provEmptyReset").addEventListener("click", resetProv);
+  el("downloadCsv").addEventListener("click", downloadCsv);
+  document.querySelectorAll("#provTable th").forEach(function (th) {
+    th.addEventListener("click", function () {
+      var k = th.getAttribute("data-sort");
+      if (provSortKey === k) { provSortDir = -provSortDir; }
+      else { provSortKey = k; provSortDir = (k === "name" || k === "capital" || k === "island") ? 1 : -1; }
+      renderProvTable();
+    });
+  });
+  var hamb = el("hamb"), menu = el("mobileMenu");
+  hamb.addEventListener("click", function () {
+    var open = menu.classList.toggle("open");
+    hamb.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+  menu.querySelectorAll("a").forEach(function (a) {
+    a.addEventListener("click", function () {
+      menu.classList.remove("open");
+      hamb.setAttribute("aria-expanded", "false");
+    });
+  });
+});
+</script>
 </body>
 </html>
